@@ -1,4 +1,4 @@
-import json, sys, re, sqlite3, math
+import json, sys, re, sqlite3, math, copy
 
 # ---------------------------------------
 # Data Loading
@@ -198,7 +198,12 @@ def mmex_transaction_to_ledger_postings(mmex_tx, accounts, currencies):
             })
     else:
         if mmex_tx["shares"]:
-            commodity["scale"] = 10000000
+            high_prec_commodity = commodity
+            if high_prec_commodity["scale"] < 100000000:
+                high_prec_commodity = copy.copy(commodity)
+                high_prec_commodity["scale"] = 100000000
+                
+
             postings.append({
                 "amount": mmex_tx["shares"]["count"],
                 "commodity": {
@@ -207,7 +212,7 @@ def mmex_transaction_to_ledger_postings(mmex_tx, accounts, currencies):
                 },
                 "price": {
                     "amount": mmex_tx["shares"]["price"],
-                    "commodity": commodity,
+                    "commodity": high_prec_commodity,
                 },
                 "account": f"assets:{primary_account_name_base}"
             })
