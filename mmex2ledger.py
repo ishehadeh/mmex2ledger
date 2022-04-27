@@ -222,7 +222,7 @@ def mmex_transaction_to_ledger_postings(mmex_tx, accounts, currencies):
                 # print(mmex_tx["shares"]["commission"])
                 postings.append({
                     "amount": mmex_tx["shares"]["commission"],
-                    "commodity": commodity,
+                    "commodity": high_prec_commodity,
                     "account": f"expenses:{primary_account_name_base}:commission"
                 })            
         else:
