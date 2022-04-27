@@ -13,7 +13,6 @@ def mmex_get_categories(db):
     
     cursor.execute("SELECT SUBCATEGID, CATEGID, SUBCATEGNAME FROM SUBCATEGORY_V1")
     for (id, parent_id, subcategory) in cursor.fetchall():
-        norm_subcategory = normalize_account_name(subcategory)
         categories[parent_id]["subcategories"][id] = { 'name': subcategory }
     return categories
 
